@@ -100,7 +100,8 @@ func PutSpotLimit(account string, password string) {
 	price := rand.Intn(constants.MaxPrice-constants.MinPrice+1) + constants.MinPrice
 
 	requestPayload.Id = 1
-	requestPayload.Method = "order.put_limit"
+	requestPayload.Method = constants.Method
+
 	requestPayload.Params = []interface{}{
 		userId,
 		constants.WalletId,
