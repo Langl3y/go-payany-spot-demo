@@ -1,0 +1,1 @@
+# PayAny spot demo - Go

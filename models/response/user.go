@@ -1,0 +1,31 @@
+package response
+
+type OrderConfirmList struct {
+	Limit      bool `json:"limit"`
+	Market     bool `json:"market"`
+	StopLimit  bool `json:"stop_limit"`
+	StopMarket bool `json:"stop_market"`
+}
+
+type LogInResponseData struct {
+	UserId                  int              `json:"user_id"`
+	UserName                string           `json:"user_name"`
+	Lang                    string           `json:"lang"`
+	CountryCode             string           `json:"country_code"`
+	PhoneNumber             string           `json:"phone_number"`
+	IsWhatsapp              bool             `json:"is_whatsapp"`
+	Email                   string           `json:"email"`
+	BindEmail               bool             `json:"bind_email"`
+	BindMobile              bool             `json:"bind_mobile"`
+	BindTotp                bool             `json:"bind_totp"`
+	KycStatus               string           `json:"kyc_status"`
+	LoginPasswordLevel      string           `json:"login_password_level"`
+	LoginPasswordUpdateTime int              `json:"login_password_update_time"`
+	OrderConfirmList        OrderConfirmList `json:"order_confirm_list"`
+	BindGoogleId            bool             `json:"bind_google_id"`
+	BindAppleId             bool             `json:"bind_apple_id"`
+	BindFacebookId          bool             `json:"bind_facebook_id"`
+	BindTelegramId          bool             `json:"bind_telegram_id"`
+	Token                   string           `json:"token"`
+	ExpireTime              float64          `json:"expire_time"`
+}

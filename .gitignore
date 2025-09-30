@@ -1,0 +1,45 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+# Ignore compiled binaries (for cross-compilation)
+# For example, if you're building for Windows on Linux:
+# GOOS=windows GOARCH=amd64 go build -o myapp.exe
+# myapp.exe
+
+# Dependency caches
+# Go module cache
+pkg/mod/
+# Vendor directory (if not using Go modules or if explicitly vendoring)
+vendor/
+
+# Test output
+*.test
+*.out
+
+# Editor/IDE specific files
+.idea/ # IntelliJ IDEA
+.vscode/ # Visual Studio Code
+.DS_Store # macOS
+Thumbs.db # Windows
+/shelf/
+/workspace.xml
+/httpRequests/
+/dataSources/
+/dataSources.local.xml
+
+# Log files
+*.log
+
+# Environment variables
+*.env
+
+# Build output directories
+# If you have specific build output directories like 'build/' or 'dist/'
+# build/
+# dist/
+
+# Miscellaneous
+# For example, if you generate documentation
+# doc/
