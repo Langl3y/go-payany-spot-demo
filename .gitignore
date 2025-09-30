@@ -1,47 +1,29 @@
 # Binaries for programs and plugins
 *.exe
+*.exe~
 *.dll
 *.so
 *.dylib
-# Ignore compiled binaries (for cross-compilation)
-# For example, if you're building for Windows on Linux:
-# GOOS=windows GOARCH=amd64 go build -o myapp.exe
-# myapp.exe
 
-# Dependency caches
-# Go module cache
-pkg/mod/
-# Vendor directory (if not using Go modules or if explicitly vendoring)
-vendor/
-
-# Test output
+# Test binary, built with `go test -c`
 *.test
+
+# Code coverage profiles and other test artifacts
 *.out
+coverage.*
+*.coverprofile
+profile.cov
 
-# Editor/IDE specific files
-./
-../
-.idea/ # IntelliJ IDEA
-.vscode/ # Visual Studio Code
-.DS_Store # macOS
-Thumbs.db # Windows
-/shelf/
-/workspace.xml
-/httpRequests/
-/dataSources/
-/dataSources.local.xml
+# Dependency directories (remove the comment below to include it)
+# vendor/
 
-# Log files
-*.log
+# Go workspace file
+go.work
+go.work.sum
 
-# Environment variables
-*.env
+# env file
+.env
 
-# Build output directories
-# If you have specific build output directories like 'build/' or 'dist/'
-# build/
-# dist/
-
-# Miscellaneous
-# For example, if you generate documentation
-# doc/
+# Editor/IDE
+.idea/
+.vscode/
