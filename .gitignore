@@ -19,15 +19,15 @@ vendor/
 *.out
 
 # Editor/IDE specific files
-.idea/ # IntelliJ IDEA
-.vscode/ # Visual Studio Code
-.DS_Store # macOS
+*.idea/ # IntelliJ IDEA
+*.vscode/ # Visual Studio Code
+*.DS_Store # macOS
 Thumbs.db # Windows
-/shelf/
-/workspace.xml
-/httpRequests/
-/dataSources/
-/dataSources.local.xml
+*/shelf/
+*/workspace.xml
+*/httpRequests/
+*/dataSources/
+*/dataSources.local.xml
 
 # Log files
 *.log
