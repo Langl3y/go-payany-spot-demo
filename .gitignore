@@ -19,6 +19,7 @@ vendor/
 *.out
 
 # Editor/IDE specific files
+./
 .idea/ # IntelliJ IDEA
 .vscode/ # Visual Studio Code
 .DS_Store # macOS
