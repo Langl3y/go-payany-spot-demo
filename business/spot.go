@@ -112,7 +112,7 @@ func PutSpotLimit(account string, password string) {
 		"0.001",
 		"0.001",
 		"demo",
-		"BTC",
+		constants.FeeAsset,
 		"0.001",
 		0,
 	}

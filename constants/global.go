@@ -22,6 +22,7 @@ var (
 	WalletId  int
 	Method    string
 	AssetPair string
+	FeeAsset  string
 
 	RedisAddr     string
 	RedisDB       int
@@ -47,6 +48,7 @@ func init() {
 	WalletId, _ = strconv.Atoi(os.Getenv("WALLET_ID"))
 	Method = os.Getenv("METHOD")
 	AssetPair = os.Getenv("ASSET_PAIR")
+	FeeAsset = os.Getenv("FEE_ASSET")
 
 	RedisAddr = fmt.Sprintf(`%s:%s`, os.Getenv("REDIS_HOST"), os.Getenv("REDIS_PORT"))
 	RedisDB, _ = strconv.Atoi(os.Getenv("REDIS_DB"))
