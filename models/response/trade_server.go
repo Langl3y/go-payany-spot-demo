@@ -1,7 +1,7 @@
 package response
 
 type PutLimitResponseData struct {
-	Id          int     `json:"id"`
+	ID          int     `json:"id"`
 	Type        int     `json:"type"`
 	Side        int     `json:"side"`
 	User        int     `json:"user"`
@@ -33,5 +33,5 @@ type PutLimitError struct {
 type PutLimitResponse struct {
 	Error  *PutLimitError       `json:"error"`
 	Result PutLimitResponseData `json:"result"`
-	Id     int                  `json:"id"`
+	ID     int                  `json:"id"`
 }

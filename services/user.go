@@ -20,8 +20,8 @@ import (
 func logIn(account string, password string) (string, error) {
 	contentType := "application/json"
 	bodyContent := fmt.Sprintf(`{"account": "%s", "password": "%s"}`, account, password)
-
 	body := []byte(bodyContent)
+
 	resp, _ := http.Post(constants.LoginUrl, contentType, bytes.NewBuffer(body))
 
 	defer func(Body io.ReadCloser) {
@@ -40,19 +40,19 @@ func logIn(account string, password string) (string, error) {
 		return "", fmt.Errorf("incorrect account or password")
 	}
 
-	userId := result.Data.UserId
+	userID := result.Data.UserID
 	token := result.Data.Token
 	expireTime := int64(result.Data.ExpireTime)
 
-	_, _ = setUserData(account, userId, token, expireTime)
-	return strconv.Itoa(userId), nil
+	_, _ = setUserData(account, userID, token, expireTime)
+	return strconv.Itoa(userID), nil
 }
 
-func setUserData(account string, userId int, token string, expireTime int64) (string, error) {
+func setUserData(account string, userID int, token string, expireTime int64) (string, error) {
 	redisClient := utils.NewRedisClient()
 
 	data := map[string]interface{}{
-		"user_id": userId,
+		"user_id": userID,
 		"token":   token,
 	}
 
@@ -64,7 +64,7 @@ func setUserData(account string, userId int, token string, expireTime int64) (st
 	return val, nil
 }
 
-func GetUserId(account string, password string) (string, error) {
+func GetUserID(account string, password string) (string, error) {
 	redisClient := utils.NewRedisClient()
 
 	val, err := redisClient.HGet(context.Background(), account, "user_id").Result()

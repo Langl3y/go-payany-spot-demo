@@ -8,7 +8,7 @@ type OrderConfirmList struct {
 }
 
 type LogInResponseData struct {
-	UserId                  int              `json:"user_id"`
+	UserID                  int              `json:"user_id"`
 	UserName                string           `json:"user_name"`
 	Lang                    string           `json:"lang"`
 	CountryCode             string           `json:"country_code"`
@@ -22,10 +22,10 @@ type LogInResponseData struct {
 	LoginPasswordLevel      string           `json:"login_password_level"`
 	LoginPasswordUpdateTime int              `json:"login_password_update_time"`
 	OrderConfirmList        OrderConfirmList `json:"order_confirm_list"`
-	BindGoogleId            bool             `json:"bind_google_id"`
-	BindAppleId             bool             `json:"bind_apple_id"`
-	BindFacebookId          bool             `json:"bind_facebook_id"`
-	BindTelegramId          bool             `json:"bind_telegram_id"`
+	BindGoogleID            bool             `json:"bind_google_id"`
+	BindAppleID             bool             `json:"bind_apple_id"`
+	BindFacebookID          bool             `json:"bind_facebook_id"`
+	BindTelegramID          bool             `json:"bind_telegram_id"`
 	Token                   string           `json:"token"`
 	ExpireTime              float64          `json:"expire_time"`
 }

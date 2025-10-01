@@ -25,11 +25,11 @@ func PutSpotLimit(account string, password string) {
 	redisClient := utils.NewRedisClient()
 	val, _ := redisClient.HGet(context.Background(), account, "user_id").Result()
 	if val == "" {
-		val, _ = services.GetUserId(account, password)
+		val, _ = services.GetUserID(account, password)
 	}
 
-	userId, _ := strconv.Atoi(val)
-	if userId < 1 {
+	userID, _ := strconv.Atoi(val)
+	if userID < 1 {
 		os.Exit(1)
 	}
 
@@ -38,10 +38,10 @@ func PutSpotLimit(account string, password string) {
 	amount := rand.Intn(constants.MaxAmount-constants.MinAmount+1) + constants.MinAmount
 	price := rand.Intn(constants.MaxPrice-constants.MinPrice+1) + constants.MinPrice
 
-	requestPayload.Id = 1
+	requestPayload.ID = 1
 	requestPayload.Method = constants.Method
 	requestPayload.Params = []interface{}{
-		userId,
+		userID,
 		constants.WalletId,
 		constants.AssetPair,
 		side,
@@ -76,16 +76,16 @@ func PutSpotLimit(account string, password string) {
 
 		if exceptionObj != nil {
 			message := responseData.Error.Message
-			fmt.Printf(`User %d - message: %s`, userId, message)
+			fmt.Printf(`User %d - message: %s`, userID, message)
 		} else {
 			fmt.Print("Service Unavailable")
 		}
 	} else {
 		log := "User %d placed %s order: %d BTC at %d USDT"
 		if side == 1 {
-			fmt.Printf(log, userId, "Sell", amount, price)
+			fmt.Printf(log, userID, "Sell", amount, price)
 		} else {
-			fmt.Printf(log, userId, "Buy", amount, price)
+			fmt.Printf(log, userID, "Buy", amount, price)
 		}
 	}
 
