@@ -2,93 +2,87 @@ package business
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"fmt"
 	"io"
 	"math/rand"
-	"net/http"
-	"os"
-	"spot_demo/constants"
-	"spot_demo/models/payload"
-	"spot_demo/models/response"
-	"spot_demo/services"
+	"spot_demo/caches"
+	"spot_demo/common"
+	"spot_demo/models/request/payload"
+	"spot_demo/models/request/response"
 	"spot_demo/utils"
 	"strconv"
 	"time"
 )
 
-func PutSpotLimit(account string, password string) {
-	var requestPayload payload.StopLimit
-	var responseData response.PutLimitResponse
+func PutSpotLimit(account string, password string) (string, error) {
+	var requestPayload payload.PutLimit
+	var requestResponse response.TradeServer[response.PutLimitError, response.PutLimit]
 
-	redisClient := utils.NewRedisClient()
-	val, _ := redisClient.HGet(context.Background(), account, "user_id").Result()
-	if val == "" {
-		val, _ = services.GetUserID(account, password)
+	val, err := caches.GetUserID(account, password)
+	if err != nil {
+		return "", err
 	}
 
 	userID, _ := strconv.Atoi(val)
 	if userID < 1 {
-		os.Exit(1)
+		result, _ := LogIn(account, password)
+		userID, _ = strconv.Atoi(result)
 	}
 
 	rand.Seed(time.Now().UnixNano())
-	side := rand.Intn(constants.Bid-constants.Ask+1) + constants.Ask
-	amount := rand.Intn(constants.MaxAmount-constants.MinAmount+1) + constants.MinAmount
-	price := rand.Intn(constants.MaxPrice-constants.MinPrice+1) + constants.MinPrice
+	side := rand.Intn(common.Bid-common.Ask+1) + common.Ask
+	amount := rand.Intn(common.MaxAmount-common.MinAmount+1) + common.MinAmount
+	price := rand.Intn(common.MaxPrice-common.MinPrice+1) + common.MinPrice
 
 	requestPayload.ID = 1
-	requestPayload.Method = constants.Method
-	requestPayload.Params = []interface{}{
+	requestPayload.Method = common.Method
+	requestPayload.Params = &[]interface{}{
 		userID,
-		constants.WalletId,
-		constants.AssetPair,
+		common.WalletId,
+		common.AssetPair,
 		side,
 		strconv.Itoa(amount),
 		strconv.Itoa(price),
 		"0.001",
 		"0.001",
 		"demo",
-		constants.FeeAsset,
+		common.FeeAsset,
 		"0.001",
 		0,
 	}
-
 	jsonPayload, _ := json.Marshal(requestPayload)
-	resp, _ := http.Post(constants.PutStopLimitUrl, "application/json", bytes.NewBuffer(jsonPayload))
+
+	req, err := utils.NewHttpRequest(common.PutStopLimitUrl, common.POST, nil,
+		bytes.NewBuffer(jsonPayload), nil)
+	if err != nil {
+		return "", fmt.Errorf("failed to build HTTP request: %w", err)
+	}
+
+	resp, err := utils.HttpRequest(req)
+	if err != nil {
+		return "", fmt.Errorf("failed to build HTTP request: %w", err)
+	}
 
 	defer func(Body io.ReadCloser) {
-		err := Body.Close()
-		if err != nil || resp.Body == nil {
-			fmt.Print("Service Unavailable")
-			os.Exit(2)
+		_err := Body.Close()
+		if _err != nil {
+			fmt.Print("error reading response")
 		}
 	}(resp.Body)
 
-	if err := json.NewDecoder(resp.Body).Decode(&responseData); err != nil {
-		fmt.Printf("Failed to place order: %s", err)
-		os.Exit(3)
+	if respErr := json.NewDecoder(resp.Body).Decode(&requestResponse); respErr != nil {
+		fmt.Print("service unavailable")
 	}
 
-	if responseData.Error != nil {
-		exceptionObj := &responseData.Error
-
-		if exceptionObj != nil {
-			message := responseData.Error.Message
-			fmt.Printf(`User %d - message: %s`, userID, message)
-		} else {
-			fmt.Print("Service Unavailable")
-		}
+	if requestResponse.Error != nil {
+		return fmt.Sprintf("User %d - message: %s", userID, requestResponse.Error.Message), nil
 	} else {
 		log := "User %d placed %s order: %d BTC at %d USDT"
 		if side == 1 {
-			fmt.Printf(log, userID, "Sell", amount, price)
+			return fmt.Sprintf(log, userID, "Sell", amount, price), nil
 		} else {
-			fmt.Printf(log, userID, "Buy", amount, price)
+			return fmt.Sprintf(log, userID, "Buy", amount, price), nil
 		}
 	}
-
-	fmt.Println()
-	return
 }
