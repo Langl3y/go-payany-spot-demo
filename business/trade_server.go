@@ -19,7 +19,7 @@ func PutSpotLimit(account string, password string) (string, error) {
 	var requestPayload payload.PutLimit
 	var requestResponse response.TradeServer[response.PutLimitError, response.PutLimit]
 
-	val, err := caches.GetUserID(account, password)
+	val, err := caches.GetUserID(account)
 	if err != nil {
 		return "", err
 	}

@@ -22,7 +22,7 @@ func SetUserData(account string, userID int, token string, expireTime int64) {
 	redisClient.Expire(context.Background(), account, time.Duration(expiresIn)*time.Second)
 }
 
-func GetUserID(account string, password string) (string, error) {
+func GetUserID(account string) (string, error) {
 	redisClient := utils.NewRedisClient()
 	val, err := redisClient.HGet(context.Background(), account, "user_id").Result()
 
