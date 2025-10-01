@@ -5,18 +5,29 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"spot_demo/constants"
+	"spot_demo/common"
 )
 
-func NewHttpRequest(url string, method constants.HttpMethod,
-	headers map[string]string, payload []byte, params map[string]any) (*http.Request, error) {
+var httpClient = &http.Client{}
+
+func HttpRequest(req *http.Request) (*http.Response, error) {
+	resp, err := httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
+}
+
+func NewHttpRequest(url string, method common.HttpMethod,
+	headers map[string]string, payload *bytes.Buffer, params map[string]any) (*http.Request, error) {
 
 	var req *http.Request
 	var err error
 
-	if method == constants.GET {
+	if method == common.GET {
 		req, err = newGetRequest(url, params)
-	} else if method == constants.POST {
+	} else if method == common.POST {
 		req, err = newPostRequest(url, payload)
 	} else {
 		return nil, fmt.Errorf("invalid method")
@@ -32,15 +43,15 @@ func NewHttpRequest(url string, method constants.HttpMethod,
 		}
 	}
 
-	if method == constants.POST {
+	if method == common.POST {
 		req.Header.Set("Content-Type", "application/json")
 	}
 
 	return req, nil
 }
 
-func newPostRequest(url string, payload []byte) (*http.Request, error) {
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
+func newPostRequest(url string, payload *bytes.Buffer) (*http.Request, error) {
+	req, err := http.NewRequest("POST", url, payload)
 	if err != nil {
 		return nil, err
 	}

@@ -1,6 +1,12 @@
 package response
 
-type PutLimitResponseData struct {
+type TradeServer[E any, R any] struct {
+	Error  *E  `json:"error"`
+	Result *R  `json:"result"`
+	ID     int `json:"id"`
+}
+
+type PutLimit struct {
 	ID          int     `json:"id"`
 	Type        int     `json:"type"`
 	Side        int     `json:"side"`
@@ -28,10 +34,4 @@ type PutLimitResponseData struct {
 type PutLimitError struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
-}
-
-type PutLimitResponse struct {
-	Error  *PutLimitError       `json:"error"`
-	Result PutLimitResponseData `json:"result"`
-	ID     int                  `json:"id"`
 }

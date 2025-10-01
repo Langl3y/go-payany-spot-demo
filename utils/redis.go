@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"spot_demo/constants"
+	"spot_demo/common"
 	"sync"
 
 	"github.com/redis/go-redis/v9"
@@ -15,9 +15,9 @@ var (
 func NewRedisClient() *redis.Client {
 	once.Do(func() {
 		redisClient = redis.NewClient(&redis.Options{
-			Addr:     constants.RedisAddr,
-			Password: constants.RedisPassword,
-			DB:       constants.RedisDB,
+			Addr:     common.RedisAddr,
+			Password: common.RedisPassword,
+			DB:       common.RedisDB,
 		})
 	})
 
