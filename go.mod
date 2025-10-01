@@ -1,4 +1,4 @@
-module hft_backend
+module spot_demo
 
 go 1.24.3
 

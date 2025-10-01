@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"hft_backend/constants"
+	"spot_demo/constants"
 
 	"github.com/redis/go-redis/v9"
 )

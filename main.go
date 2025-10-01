@@ -1,7 +1,7 @@
 package main
 
 import (
-	"hft_backend/business"
+	"spot_demo/business"
 )
 
 func main() {
