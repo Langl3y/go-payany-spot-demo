@@ -1,11 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"spot_demo/business"
 )
 
 func main() {
 	for {
-		business.PutSpotLimit("hieuhovan954@gmail.com", "eriri123")
+		result, err := business.PutSpotLimit("hieuhovan954@gmail.com", "eriri123")
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		fmt.Println(result)
 	}
 }
