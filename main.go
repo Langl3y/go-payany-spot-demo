@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"runtime"
 	"spot_demo/business"
 )
 
@@ -14,8 +15,14 @@ func stressTest() {
 	fmt.Println(result)
 }
 
+func runGotoutines() {
+	defer fmt.Printf("goroutines count: %d\n", runtime.NumGoroutine())
+	go stressTest()
+}
+
 func main() {
-	for {
-		go stressTest()
+	for i := range 10 {
+		runGotoutines()
+		i += 1
 	}
 }
